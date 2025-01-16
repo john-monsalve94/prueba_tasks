@@ -25,7 +25,8 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request -> all();
+        return response()->json(Task::create($data));
     }
 
     /**
@@ -48,7 +49,9 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $data = $request -> all();
+        $task->update($data);
+        return response()->json($task);
     }
 
     /**
@@ -59,6 +62,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return response()->json(['message'=>__('La tarea fue eleiminada correctamente')]);
     }
 }
