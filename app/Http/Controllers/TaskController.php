@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,10 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $data = $request -> all();
-        return response()->json(Task::create($data));
+        $data = $request -> validated();
+        return response()->json(Task::create($data),201);
     }
 
     /**
@@ -47,9 +48,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        $data = $request -> all();
+        $data = $request->all();
         $task->update($data);
         return response()->json($task);
     }
@@ -63,6 +64,6 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        return response()->json(['message'=>__('La tarea fue eleiminada correctamente')]);
+        return response()->json(['message'=>__('La tarea fue eliminada correctamente')]);
     }
 }
